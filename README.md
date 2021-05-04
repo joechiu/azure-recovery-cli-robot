@@ -10,7 +10,7 @@ This example will implement Azure CLIs to restore a backup VM to a new VM. Here 
 - Perl v5.30.2
 - Python 2.7
 - Azure CLI
-- Shell
+- Bourne Shell
 
 # Machanism
 - Timeout: terminate the usual long run process by Azure CLI
