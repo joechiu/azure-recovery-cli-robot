@@ -1,0 +1,40 @@
+- name: Fix the settings in the restored VM
+  hosts: vm
+  become: no
+  vars:
+    root: "{{playbook_dir}}"
+    fixer: "{{root}}/vm-fix.sh"
+  tasks:
+    - name: get results
+      script: "{{fixer}} {{vm2}}.local >> {{logfile}}"
+      register: out
+
+    - debug:
+        msg: "{{out.stdout}}"
+
+    - fetch:
+        src: "{{logfile}}" 
+        dest: "{{tempdir}}"
+
+    - debug:
+        msg: "VM fix - DONE!"
+
+    - name: Reboot the server for kernel update
+      become: yes
+      shell: "sleep 3 && /sbin/reboot"
+      async: 1
+      poll: 0
+
+    - debug:
+        msg: "Restarting VM - On going..."
+
+- name: Append remote log to local
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: merge remote log
+      shell: cat "{{tempdir}}/{{sshvm}}{{logfile}}" >> "{{logfile}}"
+
+    - debug:
+        msg: "Log merge - DONE!"
+

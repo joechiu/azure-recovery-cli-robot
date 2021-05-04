@@ -1,0 +1,17 @@
+---
+root: "{{playbook_dir}}"
+robot: "{{root}}/rc-robot.pl"
+logfile: "/tmp/rc-robot.log"
+tempdir: "/tmp/dir"
+
+trg: "foo-rg"
+actn: "foostorage"
+exrg: "foo-rg"
+
+ip: null
+sshvm: azcliVM
+config: "/user/.ssh/config"
+marker: "Auto {{vm2}} Server Restored by Ansible"
+admin_user: xxxuser
+sshkey: "/keys/ssh-xxx.key"
+

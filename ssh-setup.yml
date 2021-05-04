@@ -1,0 +1,59 @@
+- name: Pre task SSH connection setting
+  hosts: localhost
+  become: yes
+  vars:
+    root: "{{playbook_dir}}"
+    trg: "foo-rg"
+    neater: "{{root}}/conf-azvm.sh"
+    tester: "{{root}}/ssh-tester.sh"
+  tasks:
+    - name: get results
+      shell: az vm show -d -g {{trg}} -n "{{vm2}}" --query privateIps -o tsv
+      register: out
+
+    - debug:
+        msg: "{{out.stdout}}"
+
+    - name: set ip address
+      set_fact:
+        ip: "{{out.stdout}}"
+
+    - debug:
+        msg: "{{ip}}"
+
+    - name: amend the SSH config file
+      script: "{{neater}} '{{config}}' {{sshvm}}"
+
+    - name: create SSH config file
+      file:
+        path: "{{ config }}"
+        mode: 0644
+        state: touch
+
+    - name: remove VM configuratoin to from SSH
+      blockinfile:
+        dest: "{{ config }}"
+        marker: "# {mark} {{ ip }}"
+        block: ""
+        state: absent
+
+    - name: Add VM configuration to SSH
+      blockinfile:
+        dest: "{{ config }}"
+        marker: "# {mark} {{ ip }}"
+        block: |
+          Host {{ ip }} {{ vm2 }} {{sshvm}}
+            User {{admin_user}}
+            StrictHostKeyChecking no
+            IdentityFile {{ sshkey }}
+            Hostname {{ ip }}
+            Port 22
+
+    - name: message update
+      shell: echo "SSH configuration - DONE!" >> {{logfile}}
+
+    - name: check ssh connection
+      script: "{{tester}} {{ip}} {{logfile}}"
+
+
+

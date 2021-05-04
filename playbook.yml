@@ -1,0 +1,4 @@
+---
+- import_playbook: azure-cli-restore.yml
+- import_playbook: ssh-setup.yml
+- import_playbook: fix-vm.yml

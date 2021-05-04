@@ -1,0 +1,16 @@
+- name: Install Azure Cli
+  hosts: localhost
+  gather_facts: true
+  become: true
+  vars:
+    foo: bar
+  tasks:
+    - name: get item list
+      script: "{{robot}} '{{root}}' {{sub}} {{rg}} {{rsv}} {{loc}} {{vm}} {{vm2}} {{trg}} {{actn}} {{exrg}} > {{logfile}}"
+      register: out
+
+    - debug:
+        msg: "{{out.stdout}}"
+
+    - debug:
+        msg: "DONE!"
