@@ -17,7 +17,7 @@ This example will implement Azure CLIs to restore a backup VM to a new VM. Here 
 - Redo: to prevent the processes have not populated to the Azure cloud for some exceptions
 - Exception: handle the exceptions when running the az Cli and code
 - Result Handler: handle the unknow response return from Azure Cli
-- Error Hander: handle the unknow error caused by Azure Cli
+- Designation: assign the next command based by the result
 
 # RUN
 ./go.py or python go.py
