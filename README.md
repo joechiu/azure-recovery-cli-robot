@@ -13,10 +13,11 @@ This example will implement Azure CLIs to restore a backup VM to a new VM. Here 
 - Bourne Shell
 
 # Machanism
-- Timeout: terminate the usual long run process by Azure CLI
+- Timeout: terminate the unusual long run process by Azure Cli
 - Redo: to prevent the processes have not populated to the Azure cloud for some exceptions
-- Result Handler: handle the unknow response return from Azure CLI
-- Error Hander: handle the unknow error caused by Azure CLI
+- Exception: handle the exceptions when running the az Cli and code
+- Result Handler: handle the unknow response return from Azure Cli
+- Error Hander: handle the unknow error caused by Azure Cli
 
 # RUN
 ./go.py or python go.py
